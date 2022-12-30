@@ -1,0 +1,37 @@
+#docker network
+FROM ubuntu:20.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+  openvas \
+  openms \
+  icinga2 \
+  net-tools \
+  nagios-plugins \
+  etherape \
+  nmap \
+  speedometer
+
+# Run OpenVAS
+CMD ["openvas-launch"]
+
+# Run OpenMS
+CMD ["openms"]
+
+# Run Icinga 2
+CMD ["icinga2", "daemon"]
+
+# Run Netstat
+CMD ["netstat", "-lntp"]
+
+# Run Nagios plugins
+CMD ["check_ping", "-H", "localhost", "-w", "100.0,20%", "-c", "500.0,60%"]
+
+# Run EtherApe
+CMD ["etherape"]
+
+# Run Nmap
+CMD ["nmap", "-v", "-A", "localhost"]
+
+# Run Speedometer
+CMD ["speedometer", "-r", "eth0", "-t", "eth0"]
